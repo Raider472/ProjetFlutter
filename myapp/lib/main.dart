@@ -74,14 +74,19 @@ class _HomePageState extends State<HomePage> {
 }
 
 class DeuxiemeEcran extends StatelessWidget {
-  const DeuxiemeEcran({Key? key}) : super(key: key);
+  const DeuxiemeEcran({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final quizName = ModalRoute.of(context)!.settings.arguments as String?;
+    final arguments =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+
+    final String? quizName = arguments?["quizzName"] as String?;
+    final index = arguments?["index"] as int? ?? 0;
     Color couleurAppBar;
     List<QuestionQuizzHistoire> questionQuizz;
-
     if (quizName == "Histoire") {
       couleurAppBar = const Color.fromARGB(255, 6, 87, 116);
       questionQuizz = <QuestionQuizzHistoire>[
@@ -118,7 +123,7 @@ class DeuxiemeEcran extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(height: 70),
-            Text(questionQuizz[0].questionMaj,
+            Text(questionQuizz[index].questionMaj,
                 style: const TextStyle(
                   fontSize: 28,
                 ),
@@ -130,12 +135,17 @@ class DeuxiemeEcran extends StatelessWidget {
                     MainAxisAlignment.center, // Align rows at the center
                 children: [
                   for (int i = 0;
-                      i < questionQuizz[0].possibleReponsesList.length;
+                      i < questionQuizz[index].possibleReponsesList.length;
                       i++)
-                    TheAmazingRow(
+                    TheAmazingRowQuizz(
                       couleur: const Color.fromARGB(255, 6, 87, 116),
                       couleurTexte: const Color.fromARGB(255, 255, 255, 255),
-                      label: questionQuizz[0].possibleReponsesList[i],
+                      label: questionQuizz[index].possibleReponsesList[i],
+                      reponseActuelle:
+                          questionQuizz[index].possibleReponsesList[i],
+                      reponseCorrecte: questionQuizz[index].reponse,
+                      quizName: quizName,
+                      index: index,
                     ),
                 ],
               ),
@@ -194,7 +204,10 @@ class TheAmazingRow extends StatelessWidget {
       onTap: () => Navigator.pushNamed(
         context,
         PageName.quizz,
-        arguments: label,
+        arguments: {
+          "quizzName": label,
+          "index": 0,
+        },
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
@@ -220,6 +233,92 @@ class TheAmazingRow extends StatelessWidget {
                     color: couleurTexte,
                   ),
                   textAlign: TextAlign.center, // Align text in the center
+                ),
+              ),
+              IconButton(
+                icon: const Icon(Icons.arrow_right),
+                onPressed: () => {},
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class TheAmazingRowQuizz extends StatelessWidget {
+  const TheAmazingRowQuizz({
+    Key? key,
+    required this.label,
+    required this.couleur,
+    required this.couleurTexte,
+    required this.reponseActuelle,
+    required this.reponseCorrecte,
+    required this.quizName,
+    required this.index,
+  }) : super(key: key);
+
+  final String label;
+  final Color couleur;
+  final Color couleurTexte;
+  final String reponseActuelle;
+  final String reponseCorrecte;
+  final String quizName;
+  final int index;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        if (reponseActuelle == reponseCorrecte) {
+          final newIndex = index + 1;
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Bonne réponse"),
+              backgroundColor: Colors.green,
+            ),
+          );
+          Navigator.pushNamed(
+            context,
+            PageName.quizz,
+            arguments: {
+              "quizzName": quizName,
+              "index": newIndex,
+            },
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Mauvaise réponse"),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+        child: Container(
+          decoration: BoxDecoration(
+            color: couleur,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 12,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const SizedBox(width: 16),
+              Expanded(
+                child: Text(
+                  label,
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: couleurTexte,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
               ),
               IconButton(
