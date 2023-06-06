@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.dark,
       ),
       themeMode: ThemeMode.light,
-      initialRoute: PageName.home, // Set the initial route
+      initialRoute: PageName.home,
       routes: {
         PageName.home: (context) => const HomePage(),
         PageName.quizz: (context) => const DeuxiemeEcran(),
@@ -171,8 +171,7 @@ class DeuxiemeEcran extends StatelessWidget {
             const SizedBox(height: 16),
             Expanded(
               child: Column(
-                mainAxisAlignment:
-                    MainAxisAlignment.center, // Align rows at the center
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   if (questionQuizz[index].possibleReponsesList.isEmpty)
                     Padding(
@@ -287,8 +286,7 @@ class TheAmazingRow extends StatelessWidget {
             vertical: 12,
           ),
           child: Row(
-            mainAxisAlignment:
-                MainAxisAlignment.spaceBetween, // Align text in the center
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const SizedBox(width: 16),
               Expanded(
@@ -298,7 +296,7 @@ class TheAmazingRow extends StatelessWidget {
                     fontSize: 18,
                     color: couleurTexte,
                   ),
-                  textAlign: TextAlign.center, // Align text in the center
+                  textAlign: TextAlign.center,
                 ),
               ),
               IconButton(
