@@ -35,7 +35,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final quizzList = <Quizz>[const Quizz('histoire'), const Quizz('quizz2')];
+  final quizzList = <Quizz>[const Quizz("histoire"), const Quizz("quizz2")];
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +87,37 @@ class DeuxiemeEcran extends StatelessWidget {
     final index = arguments?["index"] as int? ?? 0;
     Color couleurAppBar;
     List<QuestionQuizzHistoire> questionQuizz;
+    TextEditingController valeurTextField = TextEditingController();
+
+    void verifieurReponse(String valeur, String reponse) {
+      if (reponse == valeur) {
+        final newIndex = index + 1;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Bonne réponse"),
+            backgroundColor: Colors.green,
+            duration: Duration(seconds: 1),
+          ),
+        );
+        Navigator.pushNamed(
+          context,
+          PageName.quizz,
+          arguments: {
+            "quizzName": quizName,
+            "index": newIndex,
+          },
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Mauvaise réponse"),
+            backgroundColor: Colors.red,
+            duration: Duration(seconds: 1),
+          ),
+        );
+      }
+    }
+
     if (quizName == "Histoire") {
       couleurAppBar = const Color.fromARGB(255, 6, 87, 116);
       questionQuizz = <QuestionQuizzHistoire>[
@@ -94,8 +125,17 @@ class DeuxiemeEcran extends StatelessWidget {
             "En quelle année l'Union Soviétique à t-elle obtenue la bombe H ?",
             ["1953", "1968", "1991", "1450"],
             "1953"),
-        const QuestionQuizzHistoire("test2", [], "4"),
-        const QuestionQuizzHistoire("test3", [], "e"),
+        const QuestionQuizzHistoire(
+            "En quelle année a été crée l'imprimerie ?", [], "1450"),
+        const QuestionQuizzHistoire(
+            "Quel général Américain a voulu larguer une bombe atomique en Chine lors de la guerre de Corée ?",
+            [
+              "Dwight D. Eisenhower",
+              "François Hollande",
+              "Douglas MacArthur",
+              "George S. Patton"
+            ],
+            "Douglas MacArthur"),
       ];
     } else {
       couleurAppBar = const Color.fromARGB(255, 47, 180, 107);
@@ -134,19 +174,45 @@ class DeuxiemeEcran extends StatelessWidget {
                 mainAxisAlignment:
                     MainAxisAlignment.center, // Align rows at the center
                 children: [
-                  for (int i = 0;
-                      i < questionQuizz[index].possibleReponsesList.length;
-                      i++)
-                    TheAmazingRowQuizz(
-                      couleur: const Color.fromARGB(255, 6, 87, 116),
-                      couleurTexte: const Color.fromARGB(255, 255, 255, 255),
-                      label: questionQuizz[index].possibleReponsesList[i],
-                      reponseActuelle:
-                          questionQuizz[index].possibleReponsesList[i],
-                      reponseCorrecte: questionQuizz[index].reponse,
-                      quizName: quizName,
-                      index: index,
+                  if (questionQuizz[index].possibleReponsesList.isEmpty)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 4,
+                      ),
+                      child: Column(
+                        children: [
+                          TextField(
+                            controller: valeurTextField,
+                            decoration: const InputDecoration(
+                              labelText: "Entrer la réponse",
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          ElevatedButton(
+                            onPressed: () {
+                              verifieurReponse(valeurTextField.text,
+                                  questionQuizz[index].reponse);
+                            },
+                            child: const Text('confirmer la réponse'),
+                          ),
+                        ],
+                      ),
                     ),
+                  if (questionQuizz[index].possibleReponsesList.isNotEmpty)
+                    for (int i = 0;
+                        i < questionQuizz[index].possibleReponsesList.length;
+                        i++)
+                      TheAmazingRowQuizz(
+                        couleur: const Color.fromARGB(255, 6, 87, 116),
+                        couleurTexte: const Color.fromARGB(255, 255, 255, 255),
+                        label: questionQuizz[index].possibleReponsesList[i],
+                        reponseActuelle:
+                            questionQuizz[index].possibleReponsesList[i],
+                        reponseCorrecte: questionQuizz[index].reponse,
+                        quizName: quizName,
+                        index: index,
+                      ),
                 ],
               ),
             ),
@@ -277,6 +343,7 @@ class TheAmazingRowQuizz extends StatelessWidget {
             const SnackBar(
               content: Text("Bonne réponse"),
               backgroundColor: Colors.green,
+              duration: Duration(seconds: 1),
             ),
           );
           Navigator.pushNamed(
@@ -292,6 +359,7 @@ class TheAmazingRowQuizz extends StatelessWidget {
             const SnackBar(
               content: Text("Mauvaise réponse"),
               backgroundColor: Colors.red,
+              duration: Duration(seconds: 1),
             ),
           );
         }
