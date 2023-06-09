@@ -38,6 +38,8 @@ class DeuxiemeEcran extends StatelessWidget {
               "George S. Patton"
             ],
             "Douglas MacArthur"),
+        const QuestionQuizzHistoire(
+            "En quel année l'empire mongol éclate t-il", [], "1294"),
       ];
     } else {
       couleurAppBar = const Color.fromARGB(255, 47, 180, 107);
