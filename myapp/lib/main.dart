@@ -41,7 +41,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final quizzList = <Quizz>[const Quizz("histoire"), const Quizz("quizz2")];
+  final quizzList = <Quizz>[const Quizz("histoire"), const Quizz("capitale")];
 
   @override
   Widget build(BuildContext context) {

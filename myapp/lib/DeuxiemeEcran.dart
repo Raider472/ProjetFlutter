@@ -27,8 +27,8 @@ class DeuxiemeEcran extends StatelessWidget {
             "En quelle année l'Union Soviétique à t-elle obtenue la bombe H ?",
             ["1953", "1968", "1991", "1450"],
             "1953"),
-        const QuestionQuizzHistoire(
-            "En quelle année a été crée l'imprimerie ?", [], "1450"),
+        const QuestionQuizzHistoire("En quelle année a été crée l'imprimerie ?",
+            ["1918", "476", "1450", "1244"], "1450"),
         const QuestionQuizzHistoire(
             "Quel général Américain a voulu larguer une bombe atomique en Chine lors de la guerre de Corée ?",
             [
@@ -39,7 +39,26 @@ class DeuxiemeEcran extends StatelessWidget {
             ],
             "Douglas MacArthur"),
         const QuestionQuizzHistoire(
-            "En quel année l'empire mongol éclate t-il ?", [], "1294"),
+            "Comment s'appellait l'empereur de l'empire mongol",
+            [
+              "Tchang Kaï-chek",
+              "Gengis Khan",
+              "Oda nobunaga",
+              "Franklin D. Roosevelt"
+            ],
+            "Gengis Khan"),
+      ];
+    } else if (quizName == "Capitale") {
+      couleurAppBar = const Color.fromARGB(255, 90, 97, 107);
+      questionQuizz = <QuestionQuizzHistoire>[
+        const QuestionQuizzHistoire(
+            "Quel est la capitale de la France ?", [], "Paris"),
+        const QuestionQuizzHistoire(
+            "Quel est la capitale de l'Allemagne ?", [], "Berlin"),
+        const QuestionQuizzHistoire(
+            "Quel est la capitale de la Roumanie ?", [], "Bucarest"),
+        const QuestionQuizzHistoire(
+            "Quel est la capitale du Cambodge ?", [], "Phnom Penh"),
       ];
     } else {
       couleurAppBar = const Color.fromARGB(255, 47, 180, 107);
