@@ -58,7 +58,9 @@ class DeuxiemeEcran extends StatelessWidget {
         const QuestionQuizzHistoire(
             "Quel est la capitale de la Roumanie ?", [], "Bucarest"),
         const QuestionQuizzHistoire(
-            "Quel est la capitale de la Chine ? (pas Pékin)", [], "Beijing"),
+            "Quel est le nom alternatif de la capitale de Chine ?",
+            [],
+            "Beijing"),
       ];
     } else {
       couleurAppBar = const Color.fromARGB(255, 47, 180, 107);
