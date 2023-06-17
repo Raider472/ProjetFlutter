@@ -58,7 +58,7 @@ class DeuxiemeEcran extends StatelessWidget {
         const QuestionQuizzHistoire(
             "Quel est la capitale de la Roumanie ?", [], "Bucarest"),
         const QuestionQuizzHistoire(
-            "Quel est la capitale du Cambodge ?", [], "Phnom Penh"),
+            "Quel est la capitale de la Chine ? (pas Pékin)", [], "Beijing"),
       ];
     } else {
       couleurAppBar = const Color.fromARGB(255, 47, 180, 107);
@@ -69,7 +69,9 @@ class DeuxiemeEcran extends StatelessWidget {
 
     void verifieurReponse(String valeur, String reponse) {
       globalEssais++;
-      if (reponse == valeur) {
+      if (reponse ==
+          valeur.substring(0, 1).toUpperCase() +
+              valeur.substring(1).toLowerCase()) {
         final newIndex = index + 1;
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
